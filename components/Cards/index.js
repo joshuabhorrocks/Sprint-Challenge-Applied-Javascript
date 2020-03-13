@@ -18,47 +18,47 @@
 //
 // Create a card for each of the articles and add the card to the DOM.
 
-// axios.get("https://lambda-times-backend.herokuapp.com/articles")
-// .then(response => {
-//     console.log(response.data);
-//     // Object.values(response.data).forEach(x => {
-//     //     console.log(x.response);
-//     // })
-// })
-// .catch(error => {
-//     console.log("Klingon Birds-of-Prey Decloaking!", error);
-// })
+axios.get("https://lambda-times-backend.herokuapp.com/articles")
+.then(response => {
+    let cardObject = response.data.articles;
+    let cardArr = Object.values(cardObject);
+    cardArr.forEach(article => {
+        article.forEach(article2 => {
+            cardCreator(article2);
+        })
+    })
+})
+.catch(error => {
+    console.log("Klingon Birds-of-Prey Decloaking!", error);
+})
 
 const mama = document.querySelector(".cards-container");
-mama.append(cardCreator());
 
 function cardCreator(obj) {
     const cards = document.createElement("div");
     cards.classList.add("card");
 
-    const aTitle = document.createElement("div");
-    aTitle.classList.add("headline");
-    //aTitle.textContent = `${obj.headline}`;
+    const headline = document.createElement("div");
+    headline.classList.add("headline");
+    headline.textContent = obj.headline;
 
     const author = document.createElement("div");
     author.classList.add("author");
-    //author.textContent = `${obj.authorName}`;
 
     const imageBox = document.createElement("div");
     imageBox.classList.add("img-container");
 
     const image = document.createElement("img");
-    image.classList.add("img");
-    //image.src = `${obj.authorPhoto}`;
+    image.src = obj.authorPhoto;
 
     const endLine = document.createElement("span");
     endLine.classList.add("span");
+    endLine.textContent = author.authorName;
 
-    cards.append(aTitle);
-    cards.append(author);
-    cards.append(imageBox);
-    cards.append(image);
-    cards.append(endLine);
+    cards.append(headline, author);
+    author.append(imageBox, endLine);
+    imageBox.append(image);
+    mama.append(cards);
 
     return cardCreator;
 }

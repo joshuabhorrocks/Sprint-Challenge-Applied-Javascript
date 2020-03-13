@@ -10,23 +10,22 @@
 
 axios.get("https://lambda-times-backend.herokuapp.com/topics")
 .then(response => {
-    console.log(response.data);
-    response.forEach(value => { // For each value in the returned array of respons
-        response.append(papa(value.response)); // Append that data to the parent
+    let topicArr = response.data.topics;
+    topicArr.forEach(article => {
+        topics(article)
     })
-    //papa.append(Topics(response.data));
 })
 .catch(error => {
     console.log("Red Alert. Warp Core Breach Imminent.", error);
 })
 
-const papa = document.querySelector(".tabs");
-papa.append(Topics);
+const papa = document.querySelector(".topics");
 
-function Topics (response) {
+function topics (topic) {
     const newTab = document.createElement("div");
+    papa.appendChild(newTab);
     newTab.classList.add("tab");
-    newTab.textContent = `${response.data}`;
+    newTab.textContent = topic;
 
     return newTab;
 }
